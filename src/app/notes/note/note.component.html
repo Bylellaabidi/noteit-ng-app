@@ -1,0 +1,45 @@
+<div class="card bg" style="border:4px solid white;background-color: #eaf9ff;"
+>
+    <div class="card-body" style="padding: 8px; margin-top: 8px;">
+     <div>
+        <!-- title -->
+        <input type="text"
+               [(ngModel)]="note.title"
+               (change)="updateNote()"
+               class="input-label-lg"
+               maxlength="18" style="width: 80%"
+        />
+        <a (click)="deleteNote()" class="pull-right text-danger">
+          <i class="fa fa-trash-o"></i>
+        </a>
+      </div>
+      <!-- text -->
+      <textarea class="input-label"
+                style="width: 100%" rows="6"
+                [(ngModel)]="note.text"
+                (change)="updateNote()"></textarea>
+      <strong class="text-secondary" style="font-size: small">{{note.lastModifiedOn | date:'dd-MM-yyy HH:mm'}}</strong>
+    </div>
+  </div>
+
+  <!--
+
+     <select [(ngModel)]="selectedLevel" (change)="selected()">
+        <option *ngFor="let item of data" [ngValue]="item" 
+        [ngClass]="{
+          'bg-success':item.name === 'success',
+          'bg-primary':item.name === 'primary',
+          'bg-danger':item.name === 'danger',
+          'bg-dark':item.name === 'dark',
+          'bg-light':item.name === 'light',
+          'bg-info':item.name === 'info',
+          'bg-secondary':item.name === 'secondary',
+          'bg-warning':item.name === 'warning'
+        }"
+        >
+            <div><h5>{{item.name | uppercase}}</h5></div>
+ 
+        </option>
+      </select>
+      {{selectedLevel | json}}
+  -->

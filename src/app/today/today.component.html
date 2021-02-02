@@ -1,0 +1,100 @@
+<app-navigation></app-navigation>
+<div class='demo-app'>
+  <div class='demo-app-sidebar'>
+    <div class='demo-app-sidebar-section'>
+
+      <img class="card-img-top" src="../../assets/img/img_avatar.jpg" alt=" Card image cap">
+      <div class="card-body">
+        <h4 class="card-title">{{user.username}}</h4>
+        <p class="card-text">{{user.email}}</p>
+        <p class="card-text"><strong> Role </strong> {{role}} </p>
+
+      </div>
+
+      <br>
+
+    </div>
+  </div>
+  <div class='demo-app-main'>
+    <!--
+    <div class="row h-2 w-3">
+    <div class="col-sm-4" style="background-color:lavender;">test</div>
+    <div class="col-sm-4" style="background-color:lavenderblush;">.col-sm-4</div>
+    <div class="col-sm-4" style="background-color:lavender;">.col-sm-4</div>
+  </div>-->
+
+
+
+    <div class="container">
+      <flash-messages></flash-messages>
+      <p class="text-lg-center font-weight-bold">Today Events</p><hr>
+      <div class="card-columns">
+
+        <div *ngFor="let event of todayEvents">
+
+
+
+
+
+          <div class="card" [ngStyle]="setBackColor(event.allDay)" >
+            <div class="card-body text-center">
+              <p class="card-text">
+                
+                <strong class="text-secondary"> {{event.title}} <p *ngIf="event.allDay"> De 8h à 18h</p> 
+                  <p *ngIf="!event.allDay"> De {{event.startHour}} h à {{event.endHour}} h</p> 
+                </strong>
+              </p>
+              <p class="card-text"  *ngIf="!event.allDay">
+                 {{event.startDate}}</p>
+              <p class="card-text" *ngIf="event.allDay">
+                {{event.startDate}}</p>
+                <p class="card-text" *ngIf="event.allDay">
+                {{event.endDate}}
+              </p>
+            </div>
+
+            
+          </div>
+
+
+
+        </div>
+        <!--[ngStyle]="{'background-color':event.allDay === 'true' ? 'green' : 'red' }"-->
+
+
+
+
+
+
+  
+
+
+      </div>
+
+      <p class="text-lg-center font-weight-bold" style="margin-top: 80px;">Last week Notes</p><hr>
+      <div class="card-columns">
+
+        <div *ngFor="let note of notes">
+          <div class="card" style="background-color: rgb(157, 248, 248);" ></div>
+          <div class="card-body text-center " >
+            <p class="card-text">
+              
+              <strong> {{note.title}} </strong>
+            </p>
+            <p class="card-text"> {{note.text}} </p>
+            <strong class="text-secondary" style="font-size: small">{{note.lastModifiedOn | date:'dd-MM-yyy HH:mm'}}</strong>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <style>
+    .card-img-top {
+      width: 100%;
+      height: 40vh;
+      object-fit: cover;
+    }
+  </style>

@@ -24,7 +24,11 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css",
+              "./node_modules/@syncfusion/ej2-material-theme/styles/material.css",
+              "./node_modules/@fullcalendar/common/main.css"
+
             ],
             "scripts": []
           },
@@ -88,7 +92,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "./node_modules/fullcalendar/dist/fullcalendar.min.css",
+              "./node_modules/@syncfusion/ej2-material-theme/styles/material.css",
+              "./node_modules/@fullcalendar/common/main.css"
             ],
             "scripts": []
           }
@@ -119,6 +126,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "noteit-ng-app"
+    }
+  },
+  "defaultProject": "noteit-ng-app",
+  "cli": {
+    "analytics": "2ba72677-7dfb-4a6a-9227-342a4aa72f3c"
+  }
 }

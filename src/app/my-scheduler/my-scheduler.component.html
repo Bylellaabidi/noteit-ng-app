@@ -1,0 +1,191 @@
+<app-navigation></app-navigation>
+<div class='demo-app'>
+
+  <div class='demo-app-sidebar'>
+    <div class='demo-app-sidebar-section'>
+      <h2>Instructions</h2>
+      <ul>
+        <li>Select dates and you will be prompted to create a new event</li>
+        <li>Drag, drop, and resize events</li>
+        <li>Click an event to delete it</li>
+      </ul>
+    </div>
+    <div class='demo-app-sidebar-section'>
+      <label>
+        <input type='checkbox' [checked]='calendarVisible' (change)='handleCalendarToggle()' />
+        toggle whole calendar
+      </label>
+    </div>
+    <div class='demo-app-sidebar-section'>
+      <label>
+        <input type='checkbox' [checked]='calendarOptions.weekends' (change)='handleWeekendsToggle()' />
+        toggle weekends
+      </label>
+    </div>
+    <div class='demo-app-sidebar-section'>
+      <h2>All Events ({{currentEvents.length}})</h2>
+      <ul>
+        <li *ngFor='let event of currentEvents'>
+          <b>{{event.startStr}}</b>
+          <i>{{event.title}}</i>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class='demo-app-main'>
+    <flash-messages></flash-messages>
+    <div class="row">
+      <div class="col-md-11"></div>
+      <div class="col-md-3">
+        <button class="btn btn-success" (click)="open(content)">
+          Add Event
+        </button>
+      </div>
+    </div>
+    <br>
+    <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'></full-calendar>
+  </div>
+
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">
+        ×
+      </span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" #f="ngForm" (ngSubmit)="test()" novalidate class="event-form">
+      <!-- Title -->
+      <div class="form-group">
+        <label for="title">Event title</label>
+        <input 
+        type="text" id="title" class="form-control" name="title" 
+        placeholder="Your event title"
+        [(ngModel)]="addEvent.title" #title="ngModel" 
+        [ngClass]="{ 'is-invalid': f.submitted && title.invalid }"
+        required />
+
+
+
+        <!-- input validation group -->
+        <div *ngIf="f.submitted && title.invalid" class="invalid-input">
+          <!-- individual validation errors -->
+          <div *ngIf="title.errors?.required">Field is required</div>
+        </div>
+      </div>
+<!-- All Day event Date -->
+      <div class="form-check">
+        <input type="checkbox" 
+        class="form-check-input" 
+        id="allDay"
+        name="allDay"
+        [(ngModel)]="addEvent.allDay"
+        >
+        <label class="form-check-label" for="allDay">All Day <p *ngIf="addEvent.allDay">(from 8am to 18 pm)</p></label>
+      </div>
+
+
+
+      <!-- Start Event Date -->
+      <div class="form-group">
+        <label for="dtartDate">
+          Start Event Date
+        </label>
+        <div class="input-group">
+          <input type="date" id="startDate" datetime="yyyy-MM-dd HH:mm:ss" class="form-control" name="startDate"
+          placeholder="Event Start Date" [(ngModel)]="addEvent.startDate" #title="ngModel" required />
+          <input type="time"  *ngIf="!addEvent.allDay" id="startHour"  class="form-control" name="startHour"
+          placeholder="Event startHour" [(ngModel)]="startHour" #title="ngModel" required /> 
+        </div>
+        <!-- input validation group -->
+        <div *ngIf="!valideDate(TODAY_STR,addEvent.startDate)"  class="invalid-input">
+          Choose a Date from {{TODAY_STR}}
+        </div>
+      </div>
+      <!--   End Event Date-->
+      <div class="form-group">
+        <label for="endDate">
+          End Event Date
+        </label>
+        <div class="input-group">
+         
+          <input type="date" id="endDate" datetime="yyyy-MM-dd HH:mm:ss" class="form-control" name="endDate"
+          placeholder="Event End Date" [(ngModel)]="addEvent.endDate" #title="ngModel" required /> 
+          <input type="time" id="endHour" *ngIf="!addEvent.allDay"  class="form-control" name="endHour"
+          placeholder="Event End endHour" [(ngModel)]="endHour" #title="ngModel" required /> 
+        </div>
+         <!-- input validation group -->
+         <div *ngIf="!valideDate(addEvent.startDate,addEvent.endDate)" class="invalid-input">
+          You need to choose a Date sup than {{addEvent.startDate}}
+        </div>
+    
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer" >
+    <button type="button"   *ngIf="!editable" [disabled]="!valideDate(addEvent.startDate,addEvent.endDate) || !valideDate(TODAY_STR,addEvent.startDate)"  class="btn btn-outline-dark" type="submit" (click)="AddEvent()">
+      Save
+    </button>
+
+    <button type="button"  *ngIf="editable"  class="btn btn-outline-dark" type="submit" (click)="AddEvent()">
+      Edit
+    </button>
+    <button type="button"  *ngIf="editable"  class="btn btn-outline-dark" type="submit" (click)="deleteEvent()">
+      Delete
+    </button>
+    <!--&& modal.close('Save click')-->
+  </div>
+</ng-template>
+
+
+
+<ng-template #myModal  let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" >
+    <p>The Events for today : {{TODAY_STR}}</p>
+    <ul>
+      <li *ngFor='let event of dayEvents'>
+        {{event.title}}
+      </li>
+      <li *ngIf="dayEvents.length == 0">
+        No Events for today
+      </li>
+    </ul>
+    
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" (click)="open(content)">
+      Add Event
+    </button>
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  
+  </div>
+</ng-template>
+
+
+<style>
+  .button {
+    background-color: #000000;
+    border: none;
+    color: white;
+
+    text-align: right;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+</style>

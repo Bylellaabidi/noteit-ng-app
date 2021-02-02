@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #025252;">
+  
+  <a class="navbar-brand" href="#">
+   
+    <span style="color: #26cfc1;">
+      <i class="fa fa-calendar"></i>
+      MySchedule</span>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01" >
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active" >
+        <a class="nav-link" routerLink="/today">Today</a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" routerLink="/schedule">Calendar</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/notes">Notes </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/feedback">Feedback</a>
+      </li>
+      <li class="nav-item">
+        <a href class="nav-link" title="SignOut" (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+      </li>
+    </ul>
+
+
+
+  </div>
+
+   <!--
+  <div class="collapse navbar-collapse" id="navbarColor01" *ngIf="!isLoggedIn">
+   
+	  <ul class="nav-item active" >
+      <li class="nav-item">
+        <a href="/register" class="nav-link" routerLink="register">Sign Up</a>
+      </li>
+      <li class="nav-item">
+        <a href="/login" class="nav-link" routerLink="login">Login</a>
+      </li>
+    </ul>
+
+
+  </div>
+<div>
+    <button type="button" class="btn btn-danger pull-right" style="margin-left:8px;"><i class="fa-user-plus"></i>Sign-in
+    </button>
+    <button type="buton" class="btn btn-success pull-right" style="margin-left:8px;"><i class="fa-user"></i> Login
+    </button>
+  </div>--> 
+</nav>
